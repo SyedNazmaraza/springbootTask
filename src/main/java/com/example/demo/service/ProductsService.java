@@ -15,6 +15,5 @@ public interface ProductsService {
     BaseResponse deleteProductById(int productId);
     BaseResponse deleteProducts();
 
-
-
+    BaseResponse getProductLessThanPrice(Double price);
 }

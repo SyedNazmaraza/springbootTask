@@ -5,6 +5,7 @@ import com.example.demo.model.ProductsRequest;
 import com.example.demo.service.ProductsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,26 +22,42 @@ public class ProductsController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity<BaseResponse> getProductsById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(productsService.getProductById(id));
+        return new ResponseEntity<>(
+                productsService.getProductById(id),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/create")
     public ResponseEntity<BaseResponse> createProducts(@RequestBody @Valid ProductsRequest productsRequest) {
-        return ResponseEntity.ok(productsService.addProduct(productsRequest));
+        return new ResponseEntity<>(
+                productsService.addProduct(productsRequest),
+                HttpStatus.CREATED
+        );
     }
+
 
     @PutMapping("/update{id}")
     public ResponseEntity<BaseResponse> updateProducts(@PathVariable("id") int id, @RequestBody @Valid ProductsRequest productsRequest) {
-        return ResponseEntity.ok(productsService.updateProduct(id,productsRequest));
+        return new ResponseEntity<>(
+                productsService.updateProduct(id,productsRequest),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<BaseResponse> deleteProducts() {
-        return ResponseEntity.ok(productsService.deleteProducts());
+        return new ResponseEntity<>(
+                productsService.deleteProducts(),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/delete{id}")
     public ResponseEntity<BaseResponse> deleteById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(productsService.deleteProductById(id));
+        return new ResponseEntity<>(
+                productsService.deleteProductById(id),
+                HttpStatus.OK
+        );
     }
 }

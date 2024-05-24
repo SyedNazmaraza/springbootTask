@@ -5,6 +5,8 @@ import com.example.demo.model.BaseResponse;
 import com.example.demo.model.ProductsRequest;
 import com.example.demo.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +20,12 @@ public class ProductsServiceImp implements ProductsService {
 
     @Override
     public BaseResponse getAll() {
-        List<Products> productsList = productsRepository.findAll();
+        Pageable firstPageWithTwoRecords =
+                PageRequest.of(0,2);
+
+        List<Products> productsList =
+                productsRepository.findAll(firstPageWithTwoRecords)
+                        .getContent();
         return BaseResponse.builder()
                 .status("0")
                 .message("Products found")
@@ -68,7 +75,6 @@ public class ProductsServiceImp implements ProductsService {
                     .message("Product not found")
                     .build();
         }
-        productsRepository.deleteById(id);
         productsRepository.save(
                 Products.builder()
                         .id(id)
@@ -100,6 +106,15 @@ public class ProductsServiceImp implements ProductsService {
         return BaseResponse.builder()
                 .status("0")
                 .message("Product deleted")
+                .build();
+    }
+
+    @Override
+    public BaseResponse getProductLessThanPrice(Double price) {
+//        List<Products> productsList = productsRepository.findByPriceLessThan(price);
+        return BaseResponse.builder()
+                .status("0")
+                .message("Products found")
                 .build();
     }
 }
